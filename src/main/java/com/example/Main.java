@@ -26,6 +26,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import org.springframework.web.bind.annotation.*;
+import org.springframework.http.MediaType;
+
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -49,8 +52,82 @@ public class Main {
   }
 
   @RequestMapping("/")
-  String index() {
+  String index(Map<String, Object> model) {
+    String name = "Bobby";
+    model.put("name", name);
     return "index";
+  }
+
+  @GetMapping(
+    path = "/person"
+  )
+  public String getPersonForm(Map<String, Object> model){
+    Person person = new Person();  // creates new person object with empty fname and lname
+    model.put("person", person);
+    return "person";
+  }
+
+  @PostMapping(
+    path = "/person",
+    consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE}
+  )
+  public String handleBrowserPersonSubmit(Map<String, Object> model, Person person) throws Exception {
+    // Save the person data into the database
+    try (Connection connection = dataSource.getConnection()) {
+      Statement stmt = connection.createStatement();
+      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS people (id serial, fname varchar(20), lname varchar(20))");
+      String sql = "INSERT INTO people (fname,lname) VALUES ('" + person.getFname() + "','" + person.getLname() + "')";
+      stmt.executeUpdate(sql);
+      System.out.println(person.getFname() + " " + person.getLname()); // print person on console
+      return "redirect:/person/success";
+    } catch (Exception e) {
+      model.put("message", e.getMessage());
+      return "error";
+    }
+
+  }
+
+  @GetMapping("/person/success")
+  public String getPersonSuccess(Map<String, Object> model){
+    try (Connection connection = dataSource.getConnection()) {
+      Statement stmt = connection.createStatement();
+      ResultSet rs = stmt.executeQuery("SELECT * FROM people");
+
+      ArrayList<String> output = new ArrayList<String>();
+      while (rs.next()) {
+        String fname = rs.getString("fname");
+        String id = rs.getString("id");
+        
+        output.add(id + "," + fname);
+      }
+
+      model.put("records", output);
+      return "success";
+    } catch (Exception e) {
+      model.put("message", e.getMessage());
+      return "error";
+    }
+    
+  }
+
+  // Method 1: uses Path variable to specify person
+  @GetMapping("/person/read/{pid}")
+  public String getSpecificPerson(Map<String, Object> model, @PathVariable String pid){
+    System.out.println(pid);
+    // 
+    // query DB : SELECT * FROM people WHERE id={pid}
+    model.put("id", pid);
+    return "readperson";
+  }
+
+  // Method 2: uses query string to specify person
+  @GetMapping("/person/read")
+  public String getSpecificPerson2(Map<String, Object> model, @RequestParam String pid){
+    System.out.println(pid);
+    // 
+    // query DB : SELECT * FROM people WHERE id={pid}
+    model.put("id", pid);
+    return "readperson";
   }
 
   @RequestMapping("/db")
