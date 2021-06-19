@@ -52,10 +52,15 @@ public class Main {
     SpringApplication.run(Main.class, args);
   }
 
-  @RequestMapping("/")
-  String rectangle(Map<String, Object> model) {
+  @GetMapping("/")
+  String homeRectangle(Map<String, Object> model) {
+    Rectangle rectangle = new Rectangle();
+    model.put("rectangle", rectangle);
+
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
+      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS rectangles"
+          + " (id serial, name varchar(20), width integer, length integer, colour varchar(20), area integer)");
       ResultSet rs = stmt.executeQuery("SELECT * FROM rectangles");
 
       ArrayList<Rectangle> output = new ArrayList<Rectangle>();
@@ -71,43 +76,21 @@ public class Main {
         output.add(temp);
       }
       model.put("rectangles", output);
-      return "rectangle";
+      return "index";
     } catch (Exception e) {
       model.put("message", e.getMessage());
       return "error";
     }
   }
 
-  @GetMapping(path = "/rectangle/create")
-  public String getRectangleForm(Map<String, Object> model) {
-    Rectangle rect = new Rectangle();
-    model.put("rectangle", rect);
-
-    try (Connection connection = dataSource.getConnection()) {
-      Statement stmt = connection.createStatement();
-      ResultSet rs = stmt.executeQuery("SELECT * FROM rectangles");
-
-      ArrayList<Rectangle> output = new ArrayList<Rectangle>();
-      while (rs.next()) {
-        Rectangle temp = new Rectangle();
-        temp.setID(rs.getString("id"));
-        temp.setName(rs.getString("name"));
-        temp.setLength(rs.getInt("length"));
-        temp.setWidth(rs.getInt("width"));
-        temp.setColour(rs.getString("colour"));
-        temp.setArea(rs.getInt("area"));
-
-        output.add(temp);
-      }
-      model.put("rectangles", output);
-      return "rectangle";
-    } catch (Exception e) {
-      model.put("message", e.getMessage());
-      return "error";
-    }
+  @GetMapping(path = "/rectangle")
+  public String getRectangleForm(Map<String, Object> model) throws Exception {
+    Rectangle rectangle = new Rectangle();
+    model.put("rectangle", rectangle);
+    return "rectangle";
   }
 
-  @PostMapping(path = "/rectangle/create", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
+  @PostMapping(path = "/rectangle", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
   public String handleBrowserRectangleSubmit(Map<String, Object> model, Rectangle rect) throws Exception {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
@@ -167,7 +150,7 @@ public class Main {
   }
 
   @GetMapping("/rectangle/read")
-  public String getSpecificRectangle2(Map<String, Object> model, @RequestParam String rid) {
+  public String getSpecificRectangle(Map<String, Object> model, @RequestParam String rid) {
     try (Connection connection = dataSource.getConnection()) {
       // Statement stmt = connection.createStatement();
       // stmt.executeQuery("DELETE FROM rectangle WHERE id = {pid}");

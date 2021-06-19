@@ -11,7 +11,7 @@
         
         <h1>Table of rectangles</h1>
         <h4>Rectangle successfully added!</h4>
-        
+
         <table>
             <tr th:each="rectangle : ${rectangles}">
                 <td th:text="${rectangle.getID()}"></td>
@@ -20,13 +20,17 @@
 
                 <td>
                     <a th:href="@{/rectangle/delete?rid={id}(id = ${rectangle.getID()})}">DELETE BUTTON</a>
+                </td>
+                <td>
                     <a th:href="@{/rectangle/read?rid={id}(id = ${rectangle.getID()})}">INSPECT</a>
                 </td>
             </tr>
         </table>
+
+        <h2>
+            <a th:href="@{/rectangle}">Create a Rectangle!</a>
+        </h2>
     </div>
 
-
-    <a th:href="@{/rectangle}">Make more rectangles!</a>
 </body>
 </html>

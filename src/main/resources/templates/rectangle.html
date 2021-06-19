@@ -7,28 +7,21 @@
     <title>New rectangle Form</title>
 </head>
 <body>
-    <form action="#" method="post" th:action="@{/rectangle}" th:object="${rectangle}">
-        
-        <input type="text" th:field=*{name} placeholder="name"> <br>
-        <input type="text" th:field=*{width} placeholder="width"> <br>
-        <input type="text" th:field=*{length} placeholder="length"> <br>
-        <input type="text" th:field=*{colour} placeholder="colour"> <br>
-        <input type="text" th:field=*{area} placeholder="area"> <br>
-
-        <input type="submit" value="Submit Rectangle">
-    </form>
-
     <table>
-        <tr th:each="rectangle : ${rectangles}">
-            <td th:text="${rectangle.getID()}"></td>
-            <td th:text="${rectangle.getName()}"></td>
-            <td th:text="${rectangle.getColour()}"></td>
+    <h1>Create a Rectangle Below!</h1>
+        <form action="#" method="post" th:action="@{/rectangle}" th:object="${rectangle}">
+            <input type="text" th:field=*{name} placeholder="name"> <br>
+            <input type="text" th:field=*{width} placeholder="width"> <br>
+            <input type="text" th:field=*{length} placeholder="length"> <br>
+            <input type="text" th:field=*{colour} placeholder="colour"> <br>
+            <input type="text" th:field=*{area} placeholder="area"> <br>
 
-            <td>
-                <a th:href="@{/rectangle/delete?rid={id}(id = ${rectangle.getID()})}">DELETE BUTTON</a>
-                <a th:href="@{/rectangle/read?rid={id}(id = ${rectangle.getID()})}">INSPECT</a>
-            </td>
-        </tr>
+            <input type="submit" value="Submit Rectangle">
+        </form>
     </table>
+
+    <h2>
+        <a th:href="@{/rectangle}">Create a Rectangle!</a>
+    </h2>
 </body>
 </html>

@@ -18,8 +18,8 @@
             <td th:text="${rectangle.getColour()}"></td>
 
             <td>
+                <a th:href="@{/rectangle/read?rid={id}(id = ${rectangle.getID()})}">INSPECT</a> 
                 <a th:href="@{/rectangle/delete?rid={id}(id = ${rectangle.getID()})}">DELETE BUTTON</a>
-                <a th:href="@{/rectangle/read?rid={id}(id = ${rectangle.getID()})}">INSPECT</a>
             </td>
         </tr>
     </table>
