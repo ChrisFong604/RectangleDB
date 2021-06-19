@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.MediaType;
 
+import java.sql.PreparedStatement;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -52,82 +53,148 @@ public class Main {
   }
 
   @RequestMapping("/")
-  String index(Map<String, Object> model) {
-    String name = "Bobby";
-    model.put("name", name);
-    return "index";
-  }
-
-  @GetMapping(
-    path = "/person"
-  )
-  public String getPersonForm(Map<String, Object> model){
-    Person person = new Person();  // creates new person object with empty fname and lname
-    model.put("person", person);
-    return "person";
-  }
-
-  @PostMapping(
-    path = "/person",
-    consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE}
-  )
-  public String handleBrowserPersonSubmit(Map<String, Object> model, Person person) throws Exception {
-    // Save the person data into the database
+  String rectangle(Map<String, Object> model) {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
-      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS people (id serial, fname varchar(20), lname varchar(20))");
-      String sql = "INSERT INTO people (fname,lname) VALUES ('" + person.getFname() + "','" + person.getLname() + "')";
-      stmt.executeUpdate(sql);
-      System.out.println(person.getFname() + " " + person.getLname()); // print person on console
-      return "redirect:/person/success";
+      ResultSet rs = stmt.executeQuery("SELECT * FROM rectangles");
+
+      ArrayList<Rectangle> output = new ArrayList<Rectangle>();
+      while (rs.next()) {
+        Rectangle temp = new Rectangle();
+        temp.setID(rs.getString("id"));
+        temp.setName(rs.getString("name"));
+        temp.setLength(rs.getInt("length"));
+        temp.setWidth(rs.getInt("width"));
+        temp.setColour(rs.getString("colour"));
+        temp.setArea(rs.getInt("area"));
+
+        output.add(temp);
+      }
+      model.put("rectangles", output);
+      return "rectangle";
     } catch (Exception e) {
       model.put("message", e.getMessage());
       return "error";
     }
-
   }
 
-  @GetMapping("/person/success")
-  public String getPersonSuccess(Map<String, Object> model){
+  @GetMapping(path = "/rectangle/create")
+  public String getRectangleForm(Map<String, Object> model) {
+    Rectangle rect = new Rectangle();
+    model.put("rectangle", rect);
+
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
-      ResultSet rs = stmt.executeQuery("SELECT * FROM people");
+      ResultSet rs = stmt.executeQuery("SELECT * FROM rectangles");
 
-      ArrayList<String> output = new ArrayList<String>();
+      ArrayList<Rectangle> output = new ArrayList<Rectangle>();
       while (rs.next()) {
-        String fname = rs.getString("fname");
-        String id = rs.getString("id");
-        
-        output.add(id + "," + fname);
+        Rectangle temp = new Rectangle();
+        temp.setID(rs.getString("id"));
+        temp.setName(rs.getString("name"));
+        temp.setLength(rs.getInt("length"));
+        temp.setWidth(rs.getInt("width"));
+        temp.setColour(rs.getString("colour"));
+        temp.setArea(rs.getInt("area"));
+
+        output.add(temp);
+      }
+      model.put("rectangles", output);
+      return "rectangle";
+    } catch (Exception e) {
+      model.put("message", e.getMessage());
+      return "error";
+    }
+  }
+
+  @PostMapping(path = "/rectangle/create", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
+  public String handleBrowserRectangleSubmit(Map<String, Object> model, Rectangle rect) throws Exception {
+    try (Connection connection = dataSource.getConnection()) {
+      Statement stmt = connection.createStatement();
+      stmt.executeUpdate(
+          "CREATE TABLE IF NOT EXISTS rectangles (id serial, name varchar(20), width integer, length integer, colour varchar(20), area integer)");
+      String sql = "INSERT INTO rectangles (name, width, length, colour, area) VALUES ('" + rect.getName() + "','"
+          + rect.getWidth() + "','" + rect.getLength() + "','" + rect.getColour() + "','" + rect.getArea() + "')";
+      stmt.executeUpdate(sql);
+      return "redirect:/rectangle/success";
+    } catch (Exception e) {
+      model.put("message", e.getMessage());
+      return "error";
+    }
+  }
+
+  @GetMapping("/rectangle/success")
+  public String getRectangleSuccess(Map<String, Object> model) {
+    try (Connection connection = dataSource.getConnection()) {
+      Statement stmt = connection.createStatement();
+      ResultSet rs = stmt.executeQuery("SELECT * FROM rectangles");
+
+      ArrayList<Rectangle> output = new ArrayList<Rectangle>();
+      while (rs.next()) {
+        Rectangle temp = new Rectangle();
+        temp.setID(rs.getString("id"));
+        temp.setName(rs.getString("name"));
+        temp.setLength(rs.getInt("length"));
+        temp.setWidth(rs.getInt("width"));
+        temp.setColour(rs.getString("colour"));
+        temp.setArea(rs.getInt("area"));
+
+        output.add(temp);
+      }
+      model.put("rectangles", output);
+      return "rectanglesuccess";
+    } catch (Exception e) {
+      model.put("message", e.getMessage());
+      return "error";
+    }
+  }
+
+  @GetMapping("/rectangle/delete")
+  public String getRectangleToDelete(Map<String, Object> model, @RequestParam String rid) {
+    try (Connection connection = dataSource.getConnection()) {
+      // Statement stmt = connection.createStatement();
+      // stmt.executeQuery("DELETE FROM rectangle WHERE id = {pid}");
+      String sql = "DELETE FROM rectangles WHERE id = ?";
+      PreparedStatement prepareStatement = connection.prepareStatement(sql);
+      prepareStatement.setInt(1, Integer.parseInt(rid));
+      prepareStatement.executeUpdate();
+      // model.put("id", pid);
+      return "rectangledelete";
+    } catch (Exception e) {
+      model.put("message", e.getMessage());
+      return "error";
+    }
+  }
+
+  @GetMapping("/rectangle/read")
+  public String getSpecificRectangle2(Map<String, Object> model, @RequestParam String rid) {
+    try (Connection connection = dataSource.getConnection()) {
+      // Statement stmt = connection.createStatement();
+      // stmt.executeQuery("DELETE FROM rectangle WHERE id = {pid}");
+      String sql = "SELECT * FROM rectangles WHERE id = ?";
+      PreparedStatement prepareStatement = connection.prepareStatement(sql);
+      prepareStatement.setInt(1, Integer.parseInt(rid));
+
+      ResultSet rs = prepareStatement.executeQuery();
+
+      Rectangle rect = new Rectangle();
+
+      while (rs.next()) {
+        rect.setID(rs.getString("id"));
+        rect.setName(rs.getString("name"));
+        rect.setLength(rs.getInt("length"));
+        rect.setWidth(rs.getInt("width"));
+        rect.setColour(rs.getString("colour"));
+        rect.setArea(rs.getInt("area"));
       }
 
-      model.put("records", output);
-      return "success";
+      model.put("record", rect);
+
+      return "rectangleread";
     } catch (Exception e) {
       model.put("message", e.getMessage());
       return "error";
     }
-    
-  }
-
-  // Method 1: uses Path variable to specify person
-  @GetMapping("/person/read/{pid}")
-  public String getSpecificPerson(Map<String, Object> model, @PathVariable String pid){
-    System.out.println(pid);
-    // 
-    // query DB : SELECT * FROM people WHERE id={pid}
-    model.put("id", pid);
-    return "readperson";
-  }
-
-  // Method 2: uses query string to specify person
-  @GetMapping("/person/read")
-  public String getSpecificPerson2(Map<String, Object> model, @RequestParam String pid){
-    System.out.println(pid);
-    // 
-    // query DB : SELECT * FROM people WHERE id={pid}
-    model.put("id", pid);
-    return "readperson";
   }
 
   @RequestMapping("/db")
@@ -161,5 +228,4 @@ public class Main {
       return new HikariDataSource(config);
     }
   }
-
 }

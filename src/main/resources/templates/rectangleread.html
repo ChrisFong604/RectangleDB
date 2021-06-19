@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <svg width="${record.getWidth()}" height="${record.getLength()}">
+        <rect width="${record.getWidth()}" height="${record.getLength()}"/>
+    </svg>
+    <h1>Rectangle</h1>
+    <table>
+        <td th:text="${record.getID()}"></td>
+        <td th:text="${record.getName()}"></td>
+        <td th:text="${record.getLength()}"></td>
+        <td th:text="${record.getWidth()}"></td>
+        <td th:text="${record.getColour()}"></td>
+        <td th:text="${record.getArea()}"></td>
+    </table>
+    <a th:href = "@{/rectangle/success}">Back to all Rectangles</a>
+    <a th:href = "@{/}">Return to Homepage</a>
+</body>
+</html>

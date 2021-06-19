@@ -7,7 +7,22 @@
   <title>Document</title>
 </head>
 <body>
-  Hello 
-  <p th:text="${name}"></p>
+  <h1>Welcome to the Rectangle Database!</h1>
+  <a th:href="@{/rectangle}">Create Rectangle!</a>
+  <h1>Table of rectangles</h1>
+  
+    <table>
+        <tr th:each="rectangle : ${rectangles}">
+            <td th:text="${rectangle.getID()}"></td>
+            <td th:text="${rectangle.getName()}"></td>
+            <td th:text="${rectangle.getColour()}"></td>
+
+            <td>
+                <a th:href="@{/rectangle/delete?rid={id}(id = ${rectangle.getID()})}">DELETE BUTTON</a>
+                <a th:href="@{/rectangle/read?rid={id}(id = ${rectangle.getID()})}">INSPECT</a>
+            </td>
+        </tr>
+    </table>
+
 </body>
 </html>

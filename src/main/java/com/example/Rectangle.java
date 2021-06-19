@@ -1,40 +1,59 @@
 package com.example;
 
 public class Rectangle {
+    private String id;
     private String name;
-    private String colour;
-    private Integer height;
     private Integer width;
+    private Integer length;
+    private String colour;
+    private Integer area;
+
+    public String getID() {
+        return this.id;
+    }
 
     public String getName() {
-        return name;
-    }
-
-    public String getColour() {
-        return colour;
-    }
-
-    public Integer getHeight() {
-        return height;
+        return this.name;
     }
 
     public Integer getWidth() {
-        return width;
+        return this.width;
     }
 
-    public void setName(String namearg) {
-        name = namearg;
+    public Integer getLength() {
+        return this.length;
     }
 
-    public void setColour(String colourarg) {
-        colour = colourarg;
+    public String getColour() {
+        return this.colour;
     }
 
-    public void setHeight(Integer heightarg) {
-        height = heightarg;
+    public Integer getArea() {
+        return this.area;
     }
 
-    public void setWidth(Integer widtharg) {
-        width = widtharg;
+    public void setID(String f) {
+        this.id = f;
     }
+
+    public void setName(String f) {
+        this.name = f;
+    }
+
+    public void setWidth(Integer f) {
+        this.width = f;
+    }
+
+    public void setLength(Integer f) {
+        this.length = f;
+    }
+
+    public void setColour(String l) {
+        this.colour = l;
+    }
+
+    public void setArea(Integer f) {
+        this.area = f;
+    }
+
 }
