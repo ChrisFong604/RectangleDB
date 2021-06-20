@@ -8,6 +8,7 @@ body {
 a {
   text-decoration: none;
   padding: 3px;
+  margin: auto;
   border: 2px solid black;
   border-radius: 5px;
 }
@@ -48,6 +49,7 @@ td {
 }
 .data-table a {
   color: whitesmoke;
+  margin: none;
   border: 1px solid whitesmoke;
 }
 .data-table a:visited {
@@ -70,4 +72,10 @@ td {
 }
 .homepage-btn {
   margin-top: 25px;
+}
+.data-form {
+  margin-bottom: 25px;
+}
+.mainblock {
+  margin: 20px;
 }

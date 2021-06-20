@@ -32,7 +32,11 @@
                 <tr th:each="rectangle : ${rectangles}">
                     <td th:text="${rectangle.getID()}"></td>
                     <td th:text="${rectangle.getName()}"></td>
-                    <td th:text="${rectangle.getColour()}"></td>
+                    <td>
+                      <svg width="20" height="20">
+                        <rect width="20" height="20" th:fill="${rectangle.getColour()}"></rect>
+                      </svg>
+                    </td>
 
                     <td>
                         <a th:href="@{/rectangle/read?rid={id}(id = ${rectangle.getID()})}">INSPECT</a> 

@@ -97,7 +97,8 @@ public class Main {
       stmt.executeUpdate(
           "CREATE TABLE IF NOT EXISTS rectangles (id serial, name varchar(20), width integer, length integer, colour varchar(20), area integer)");
       String sql = "INSERT INTO rectangles (name, width, length, colour, area) VALUES ('" + rect.getName() + "','"
-          + rect.getWidth() + "','" + rect.getLength() + "','" + rect.getColour() + "','" + rect.getArea() + "')";
+          + rect.getWidth() + "','" + rect.getLength() + "','" + rect.getColour() + "','"
+          + rect.getWidth() * rect.getLength() + "')";
       stmt.executeUpdate(sql);
       return "redirect:/rectangle/success";
     } catch (Exception e) {

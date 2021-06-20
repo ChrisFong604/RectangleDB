@@ -9,14 +9,32 @@
 </head>
 <body>
     <h1>Rectangle</h1>
-    <table class="data-table">
-        <td th:text="${record.getID()}"></td>
-        <td th:text="${record.getName()}"></td>
-        <td th:text="${record.getLength()}"></td>
-        <td th:text="${record.getWidth()}"></td>
-        <td th:text="${record.getColour()}"></td>
-        <td th:text="${record.getArea()}"></td>
-    </table>
+    <div class="mainblock">
+        <table class="data-table">
+            <thead>
+                <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Length</th>
+                <th>Width</th>
+                <th>Colour</th>
+                <th>Area</th>
+                </tr>
+            </thead>
+            <tr>
+                <td th:text="${record.getID()}"></td>
+                <td th:text="${record.getName()}"></td>
+                <td th:text="${record.getLength()}"></td>
+                <td th:text="${record.getWidth()}"></td>
+                <td>
+                    <svg width="20" height="20">
+                        <rect width="20" height="20" th:fill="${record.getColour()}"></rect>
+                    </svg>
+                </td>
+                <td th:text="${record.getArea()}"></td>
+            </tr>
+        </table>
+    </div>
     <a th:href = "@{/rectangle/success}">Back to all Rectangles</a>
     <a th:href = "@{/}">Return to Homepage</a>
 </body>
