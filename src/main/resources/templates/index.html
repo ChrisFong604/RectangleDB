@@ -34,15 +34,16 @@
                     <td th:text="${rectangle.getName()}"></td>
                     <td>
                       <svg width="20" height="20">
-                        <rect width="20" height="20" th:fill="${rectangle.getColour()}"></rect>
+                          <rect width="20" height="20" th:fill="${rectangle.getColour()}"></rect>
                       </svg>
+                      <span th:text="${rectangle.getColour()}" style="text-align: center; margin:auto; margin-bottom: 5px;"></span>
                     </td>
 
                     <td>
                         <a th:href="@{/rectangle/read?rid={id}(id = ${rectangle.getID()})}">INSPECT</a> 
                     </td>
                     <td>
-                        <a th:href="@{/rectangle/delete?rid={id}(id = ${rectangle.getID()})}">DELETE BUTTON</a>
+                        <a th:href="@{/rectangle/delete?rid={id}(id = ${rectangle.getID()})}">DELETE</a>
                     </td>
                 </tr>
             </table>

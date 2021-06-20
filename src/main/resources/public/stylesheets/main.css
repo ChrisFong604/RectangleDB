@@ -46,6 +46,7 @@ a:active {
 td {
   color: whitesmoke;
   padding: 12px 15px;
+  text-align: left;
 }
 .data-table a {
   color: whitesmoke;
@@ -78,4 +79,9 @@ td {
 }
 .mainblock {
   margin: 20px;
+}
+.read-rect {
+  justify-content: center;
+  justify-self: center;
+  text-align: center;
 }

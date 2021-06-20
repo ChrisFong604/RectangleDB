@@ -10,6 +10,13 @@
 <body>
     <h1>Rectangle</h1>
     <div class="mainblock">
+        <svg class="read-rect" width="200" height="150">
+            <g>
+                <rect width="200" height="150" th:fill="${record.getColour()}"></rect>
+                <text x="50" y="75" th:text="${record.getName()}"></text>
+            </g>
+        </svg>
+        <p>Note: the above image is not an accurate representation of the rectangle dimensions</p>
         <table class="data-table">
             <thead>
                 <tr>
@@ -30,6 +37,7 @@
                     <svg width="20" height="20">
                         <rect width="20" height="20" th:fill="${record.getColour()}"></rect>
                     </svg>
+                    <span th:text="${record.getColour()}" style="text-align: center; margin:auto; margin-bottom: 5px;"></span>
                 </td>
                 <td th:text="${record.getArea()}"></td>
             </tr>
