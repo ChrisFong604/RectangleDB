@@ -5,23 +5,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>New rectangle Form</title>
+    <link href="./stylesheets/main.css" rel="stylesheet"/>
 </head>
 <body>
-    <table>
     <h1>Create a Rectangle Below!</h1>
-        <form action="#" method="post" th:action="@{/rectangle}" th:object="${rectangle}">
+    <div class="card">
+        <form class="data=form" action="#" method="post" th:action="@{/rectangle}" th:object="${rectangle}">
             <input type="text" th:field=*{name} placeholder="name"> <br>
             <input type="text" th:field=*{width} placeholder="width"> <br>
             <input type="text" th:field=*{length} placeholder="length"> <br>
-            <input type="text" th:field=*{colour} placeholder="colour"> <br>
+            <input  type="color" th:field=*{colour} value="#000000"> <br>
             <input type="text" th:field=*{area} placeholder="area"> <br>
 
-            <input type="submit" value="Submit Rectangle">
+            <input type="submit" class="btn btn-secondary btn-lg" value="Submit Rectangle">
         </form>
-    </table>
+    </div>
 
-    <h2>
-        <a th:href="@{/rectangle}">Create a Rectangle!</a>
-    </h2>
+    <a th:href="@{/}">Back to homepage</a>
 </body>
 </html>

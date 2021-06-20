@@ -6,61 +6,45 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
 
-  <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/cover/">
-  <link href="../assets/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="./stylesheets/main.css" rel="stylesheet"/>
 
-    <style>
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        user-select: none;
-      }
-
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
-    </style>
-
-    
-    <!-- Custom styles for this template -->
-  <link href="./stylesheets/main.css" rel="stylesheet">
 </head>
-<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
 
-    <header class="mb-auto">
       <div>
-        <h3 class="float-md-start mb-0">The Rectangle Factory</h3>
-        <nav class="nav nav-masthead justify-content-center float-md-end">
-          <a class="nav-link active" aria-current="page" th:href="@{/}">Home</a>
-          <a class="nav-link" href="#">Create</a>
-        </nav>
-      </div>
-    </header>
-
-      <div class="d-flex h-100 text-center text-white bg-dark">
-        <h1>Welcome to the Rectangle Database!</h1>
-        <a th:href="@{/rectangle}">Create Rectangle!</a>
-        <div class="constainer-md">
+        <h1>Welcome to the Rectangle Factory!</h1>
+        <a th:href="@{/rectangle}">Add Rectangle</a>
+        <div>
           <h1>Table of rectangles</h1>
         
-          <table>
-              <tr th:each="rectangle : ${rectangles}">
-                  <td th:text="${rectangle.getID()}"></td>
-                  <td th:text="${rectangle.getName()}"></td>
-                  <td th:text="${rectangle.getColour()}"></td>
+          <div class="mainblock">
+            <table class="data-table">
 
-                  <td>
-                      <a th:href="@{/rectangle/read?rid={id}(id = ${rectangle.getID()})}">INSPECT</a> 
-                      <a th:href="@{/rectangle/delete?rid={id}(id = ${rectangle.getID()})}">DELETE BUTTON</a>
-                  </td>
-              </tr>
-          </table>
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Colour</th>
+                    <th>INSPECT</th>
+                    <th>DELETE</th>
+                  </tr>
+                </thead>
+
+                <tr th:each="rectangle : ${rectangles}">
+                    <td th:text="${rectangle.getID()}"></td>
+                    <td th:text="${rectangle.getName()}"></td>
+                    <td th:text="${rectangle.getColour()}"></td>
+
+                    <td>
+                        <a th:href="@{/rectangle/read?rid={id}(id = ${rectangle.getID()})}">INSPECT</a> 
+                    </td>
+                    <td>
+                        <a th:href="@{/rectangle/delete?rid={id}(id = ${rectangle.getID()})}">DELETE BUTTON</a>
+                    </td>
+                </tr>
+            </table>
+          </div>
       </div>
-</div>
+
 
 </body>
 </html>

@@ -4,34 +4,39 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link href="./stylesheets/main.css" rel="stylesheet"/>
     <title>Success</title>
 </head>
 <body>
-    <div class="container">
         
-        <h1>Table of rectangles</h1>
-        <h4>Rectangle successfully added!</h4>
+        <h2>Rectangle successfully added!</h2>
 
-        <table>
+        <table class="data-table">
+
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Colour</th>
+                <th>INSPECT</th>
+                <th>DELETE</th>
+              </tr>
+            </thead>
+
             <tr th:each="rectangle : ${rectangles}">
                 <td th:text="${rectangle.getID()}"></td>
                 <td th:text="${rectangle.getName()}"></td>
                 <td th:text="${rectangle.getColour()}"></td>
+
+                <td>
+                    <a th:href="@{/rectangle/read?rid={id}(id = ${rectangle.getID()})}">INSPECT</a> 
+                </td>
                 <td>
                     <a th:href="@{/rectangle/delete?rid={id}(id = ${rectangle.getID()})}">DELETE BUTTON</a>
                 </td>
-                <td>
-                    <a th:href="@{/rectangle/read?rid={id}(id = ${rectangle.getID()})}">INSPECT</a>
-                </td>
             </tr>
         </table>
-
-        <h2>
-            <a th:href="@{/rectangle}">Create a Rectangle!</a>
-        </h2>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+        <a th:href="@{/rectangle}">Create a Rectangle!</a>
+        <a th:href="@{/}">Back to homepage</a>
 </body>
 </html>
