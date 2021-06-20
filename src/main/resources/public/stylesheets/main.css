@@ -28,7 +28,7 @@ a:active {
 .data-table {
   justify-self: center;
   border-collapse: collapse;
-  border-radius: 5px 5px 3px 3px;
+  border-radius: 5px 5px 4px 4px;
   overflow: hidden;
   margin: auto;
   font-size: 0.9em;
@@ -80,6 +80,7 @@ td {
 }
 .mainblock {
   margin: 20px;
+  margin-bottom: 30px;
 }
 .read-rect {
   justify-content: center;
