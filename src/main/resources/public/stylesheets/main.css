@@ -3,6 +3,7 @@ body {
   background-color: whitesmoke;
   font-family: "Quicksand", sans-serif;
   text-align: center;
+  margin-top: 100px;
 }
 
 a {
@@ -75,7 +76,7 @@ td {
   margin-top: 25px;
 }
 .data-form {
-  margin-bottom: 25px;
+  margin-bottom: 70px;
 }
 .mainblock {
   margin: 20px;
